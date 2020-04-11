@@ -9,7 +9,9 @@
  
 int main(int argc, char**argv) {
     std::cout << "OpenCV version=" << std::hex << CV_VERSION << std::dec << std::endl;
- 
+
+
+
     cv::Mat frame, gray;
     cv::UMat uframe, uFrameGray;
     cv::cuda::GpuMat image_gpu, image_gpu_gray;
@@ -20,7 +22,20 @@ int main(int argc, char**argv) {
 
     bool useOpenCL = (argc == 2);
     std::cout << "Use OpenCL=" << useOpenCL << std::endl;
-    cv::ocl::setUseOpenCL(useOpenCL);
+    
+std::vector<cv::ocl::PlatformInfo> platforms;
+ cv::ocl::getPlatfomsInfo(platforms);
+//Access to Platform
+const cv::ocl::PlatformInfo* platform = &platforms[0];
+//Platform Name
+std::cout << "Platform Name : " << platform->name().c_str() << std::endl;
+//Access Device within Platform
+cv::ocl::Device current_device;
+platform->getDevice(current_device, 0);
+std::cout<<"Device:"<<current_device.name()<<std::endl;
+current_device.set(0);
+cv::ocl::setUseOpenCL(useOpenCL);
+    
  
     bool useCuda = (argc == 3);
     std::cout << "Use CUDA=" << useCuda << std::endl;

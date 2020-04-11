@@ -25,8 +25,8 @@ int main(int argc, char**argv) {
     bool useCuda = (argc == 3);
     std::cout << "Use CUDA=" << useCuda << std::endl;
  
-    cv::Ptr<cv::CascadeClassifier> cascade = cv::makePtr<cv::CascadeClassifier>("/home/psdz/opencv-3.4.0/data/lbpcascades/lbpcascade_frontalface_improved.xml");
-    cv::Ptr<cv::cuda::CascadeClassifier> cascade_gpu = cv::cuda::CascadeClassifier::create("/home/psdz/opencv-3.4.0/data/lbpcascades/lbpcascade_frontalface_improved.xml");
+    cv::Ptr<cv::CascadeClassifier> cascade = cv::makePtr<cv::CascadeClassifier>("lbpcascade_frontalface_improved.xml");
+    cv::Ptr<cv::cuda::CascadeClassifier> cascade_gpu = cv::cuda::CascadeClassifier::create("lbpcascade_frontalface_improved.xml");
  
     double time = 0.0;
     int nb = 0;
@@ -36,6 +36,7 @@ int main(int argc, char**argv) {
             if(frame.empty() || nb >= 1000) {
                 break;
             }
+	    printf("frame Ind: %d\n", nb);
  
             std::vector<cv::Rect> faces;
             double t = 0.0;
@@ -69,7 +70,7 @@ int main(int argc, char**argv) {
             time += t;
             nb++;
  
-            for(std::vector<cv::Rect>::const_iterator it = faces.begin(); it != faces.end(); ++it) {
+            /*for(std::vector<cv::Rect>::const_iterator it = faces.begin(); it != faces.end(); ++it) {
                 cv::rectangle(frame, *it, cv::Scalar(0,0,255));
             }
             std::stringstream ss;
@@ -80,7 +81,7 @@ int main(int argc, char**argv) {
             char c = cv::waitKey(30);
             if(c == 27) {
                 break;
-            }
+            }*/
         }
     }
  
